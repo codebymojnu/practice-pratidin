@@ -1,6 +1,5 @@
 import Option from "./Option";
-export default function Options() {
-  const options = ["0", "-1", "1", "1"];
+export default function Options({ options = [] }) {
   return (
     <div className="grid grid-cols-2 gap-4">
       {options.map((option, index) => (
