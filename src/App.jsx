@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
 import QuizPage from "./pages/QuizPage";
 import RegistrationPage from "./pages/RegistrationPage";
+import ResultPage from "./pages/ResultPage";
 import AuthProvider from "./providers/AuthProvider";
 import PrivateRoutes from "./routes/PrivateRoutes";
 
@@ -20,6 +21,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/quiz" element={<QuizPage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route path="/result" element={<ResultPage />} />
             </Route>
 
             <Route exact path="/" element={<HomePage />} />

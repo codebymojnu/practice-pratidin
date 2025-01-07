@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import shuffleArray from "../../utils/shuffleArray";
-import NextButton from "./NextButton";
+import { useAuth } from "./../../hooks/useAuth";
+import useAxios from "./../../hooks/useAxios";
 import Options from "./Options";
 
-export default function Question({ questions = [] }) {
+export default function Question({ questions = [], quizId }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [participated, setParticipated] = useState(0);
   const [shuffledOptions, setShuffledOptions] = useState([]);
+  const [answers, setAnswers] = useState([]);
+  const { api } = useAxios();
+  const { auth } = useAuth();
 
+  // প্রশ্ন পরিবর্তন হলে অপশনগুলো শাফল করুন
   useEffect(() => {
     if (questions[currentIndex]?.options) {
-      // প্রশ্ন পরিবর্তন হলে অপশনগুলো শাফল করুন
       setShuffledOptions(shuffleArray(questions[currentIndex].options));
     }
   }, [currentIndex, questions]);
@@ -20,8 +24,40 @@ export default function Question({ questions = [] }) {
       setCurrentIndex(currentIndex + 1);
       setParticipated(participated + 1);
     } else {
-      console.log("Quiz completed");
+      handleSubmit();
     }
+  }
+
+  // উত্তর সংগ্রহ
+  function handleAnswer(questionId, selectedAnswer) {
+    // উত্তর সংগ্রহ
+    console.log("Answer collected:", questionId, selectedAnswer);
+    setAnswers({ ...answers, [questionId]: selectedAnswer });
+  }
+
+  // এবং সার্ভারে ইউজারের উত্তর পাঠানো
+
+  function handleSubmit() {
+    async function submitAnswers() {
+      try {
+        // const token = auth?.authToken;
+
+        const response = await api.post(
+          `${import.meta.env.VITE_SERVER_BASE_URL}/quizzes/${quizId}/attempt`,
+          { answers }
+        );
+
+        if (response.status === 200) {
+          console.log("Answer submitted successfully:", response.data);
+        }
+      } catch (error) {
+        console.error(
+          "Error submitting answers:",
+          error.response?.data || error
+        );
+      }
+    }
+    submitAnswers();
   }
 
   const currentQuestion = questions[currentIndex];
@@ -38,11 +74,12 @@ export default function Question({ questions = [] }) {
         Remaining: {questions.length - (currentIndex + 1)} | Participated:{" "}
         {participated}
       </p>
-      <Options options={shuffledOptions} />
-      <NextButton
+      <Options
+        options={shuffledOptions}
         onNext={handleNext}
         currentIndex={currentIndex}
-        totalQ={questions?.length}
+        questions={questions}
+        onAnswer={handleAnswer}
       />
     </div>
   );

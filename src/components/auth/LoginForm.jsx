@@ -28,10 +28,10 @@ export default function LoginForm() {
 
       if (response.status === 200) {
         const { user, tokens } = response?.data?.data;
-        const { accessToken, refreshToken } = tokens;
+        const { accessToken: authToken, refreshToken } = tokens;
 
         // সঠিকভাবে `authToken` সেট করা হচ্ছে
-        setAuth({ user, authToken: accessToken, refreshToken });
+        setAuth({ user, authToken, refreshToken });
         navigate("/"); // হোমপেজে রিডাইরেক্ট
       }
     } catch (error) {

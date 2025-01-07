@@ -45,7 +45,7 @@ export default function QuizPage() {
           <UserAvatar />
         </div>
         <div className="lg:col-span-2 bg-white">
-          <Question questions={questionSet?.questions} />
+          <Question questions={questionSet?.questions} quizId={quizId} />
         </div>
       </div>
     </main>

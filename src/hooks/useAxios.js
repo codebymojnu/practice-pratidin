@@ -1,18 +1,10 @@
-import axios from "axios";
 import { useEffect } from "react";
+import api from "../api";
 import { useAuth } from './useAuth';
 
 
-
-export default function useAxios() {
+const useAxios = () => {
     const { auth, setAuth } = useAuth();
-
-
-
-    const api = axios.create({
-        baseURL: import.meta.env.VITE_SERVER_BASE_URL,
-    });
-
 
     useEffect(() => {
         const requestIntercept = api.interceptors.request.use(
@@ -61,3 +53,4 @@ export default function useAxios() {
     return { api };
 };
 
+export default useAxios;

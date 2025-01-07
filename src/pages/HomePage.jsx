@@ -34,6 +34,9 @@ export default function HomePage() {
       <Link to="/leaderboard" className="block text-center text-blue-500 mt-4">
         Leaderboard
       </Link>
+      <Link to="/result" className="block text-center text-blue-500 mt-4">
+        Result Page
+      </Link>
       <Link to="/quiz">Quiz Page</Link>
       <main className="bg-white p-6 rounded-md h-full">
         <section>
