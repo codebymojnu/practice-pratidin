@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import shuffleArray from "../../utils/shuffleArray";
-import { useAuth } from "./../../hooks/useAuth";
 import useAxios from "./../../hooks/useAxios";
 import Options from "./Options";
 
@@ -10,7 +10,7 @@ export default function Question({ questions = [], quizId }) {
   const [shuffledOptions, setShuffledOptions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const { api } = useAxios();
-  const { auth } = useAuth();
+  const navigate = useNavigate();
 
   // প্রশ্ন পরিবর্তন হলে অপশনগুলো শাফল করুন
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function Question({ questions = [], quizId }) {
         );
 
         if (response.status === 200) {
-          console.log("Answer submitted successfully:", response.data);
+          navigate("/result", { state: { quizId } });
         }
       } catch (error) {
         console.error(
