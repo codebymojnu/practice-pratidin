@@ -13,6 +13,7 @@ export default {
       fontFamily: {
         jaldi: ["Jaldi", "sans-serif"],
         jaro: ["Jaro", "cursive"],
+        google: ['"Google Sans"', 'sans-serif']
       },
     },
   },

@@ -34,7 +34,7 @@ export default function QuizPage() {
   console.log("Quiz data:", questionSet);
 
   return (
-    <main className="max-w-8xl mx-auto h-[calc(100vh-10rem)]">
+    <main className="max-w-8xl mx-auto h-[calc(100vh-10rem)] font-google">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 h-full">
         <div className="lg:col-span-1 bg-white rounded-md p-6 h-full flex flex-col">
           <QuizHeader

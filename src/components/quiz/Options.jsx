@@ -9,11 +9,11 @@ export default function Options({
   questions,
   onAnswer,
 }) {
-  const [selectedOption, setSelectedOption] = useState(null); // সিলেক্টেড অপশন ট্র্যাক করবে
+  const [selectedOption, setSelectedOption] = useState(null); // Track the selected option
 
   function handleOptionSelect(option) {
-    setSelectedOption(option); // সিলেক্টেড অপশন সেট করা
-    onAnswer(questions[currentIndex]?.id, option); // প্যারেন্টে উত্তর পাঠানো
+    setSelectedOption(option); // Set the selected option
+    onAnswer(questions[currentIndex]?.id, option); // Send the answer to the parent
   }
 
   return (
@@ -24,15 +24,16 @@ export default function Options({
             key={index}
             name={option}
             option={option}
-            isDisabled={!!selectedOption} // একবার সিলেক্ট হলে বাকিগুলো নিষ্ক্রিয়
-            isSelected={selectedOption === option} // চেকড স্টেট
+            isDisabled={!!selectedOption} // Disable once an option is selected
+            isSelected={selectedOption === option} // Set checked state
             onSelect={() => handleOptionSelect(option)}
           />
         ))}
       </div>
+
       <NextButton
         onNext={() => {
-          setSelectedOption(null); // নতুন প্রশ্নে যাওয়ার সময় রিসেট
+          setSelectedOption(null); // Reset when moving to the next question
           onNext();
         }}
         currentIndex={currentIndex}

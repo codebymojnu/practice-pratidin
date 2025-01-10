@@ -28,7 +28,7 @@ export default function HomePage() {
   });
 
   return (
-    <div className="container mx-auto py-3">
+    <div className="container mx-auto py-3 font-google">
       <Header />
       <UserInfo />
       <Link to="/leaderboard" className="block text-center text-blue-500 mt-4">

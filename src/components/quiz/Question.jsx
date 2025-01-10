@@ -63,7 +63,7 @@ export default function Question({ questions = [], quizId }) {
   const currentQuestion = questions[currentIndex];
 
   return (
-    <div className="bg-white p-6 rounded-md">
+    <div className="bg-white p-6 rounded-md font-google">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-2xl font-semibold">
           Q{currentIndex + 1}.{" "}

@@ -34,7 +34,7 @@ function ResultPage() {
   }, []);
 
   return (
-    <div className="bg-background text-foreground min-h-screen">
+    <div className="bg-background text-foreground min-h-screen font-google">
       <div className="flex min-h-screen overflow-hidden">
         <QuizSummary quizId={quizId} />
         <ResultQuestions quizId={quizId} />
