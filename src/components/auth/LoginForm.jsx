@@ -1,7 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import { useAuth } from "../../hooks/useAuth";
 import { loginValidationSchema } from "../../validationSchema/loginValidation";
 import TextField from "../common/TextField";
@@ -9,6 +11,7 @@ import TextField from "../common/TextField";
 export default function LoginForm() {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -18,6 +21,7 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (formData) => {
+    setLoading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`,
@@ -32,10 +36,12 @@ export default function LoginForm() {
 
         // সঠিকভাবে `authToken` সেট করা হচ্ছে
         setAuth({ user, authToken, refreshToken });
+        setLoading(false);
         navigate("/"); // হোমপেজে রিডাইরেক্ট
       }
     } catch (error) {
       console.error("Login error:", error.message);
+      setLoading(false);
     }
   };
 
@@ -69,10 +75,15 @@ export default function LoginForm() {
         </label>
       </div>
       <button
+        disabled={loading}
         type="submit"
-        className="w-full bg-primary text-white py-3 rounded-lg mb-4"
+        className={`w-full text-white  py-3 rounded-lg mb-2 ${
+          loading
+            ? "bg-gray-500 cursor-not-allowed"
+            : "bg-primary hover:bg-violet-900"
+        }`}
       >
-        সাইন ইন
+        {loading ? <ClipLoader size={20} color="#ffffff" /> : "Sign In"}
       </button>
     </form>
   );
