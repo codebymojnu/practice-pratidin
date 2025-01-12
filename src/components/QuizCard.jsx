@@ -13,7 +13,7 @@ export default function QuizCard({
       <div className="relative group cursor-pointer rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow max-h-[450px] p-1 bg-white">
         {/* Background image */}
         <img
-          src={thumbnail}
+          src="./assests/backgrounds/5.jpg"
           alt={title}
           className="w-full h-56 sm:h-72 md:h-80 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
         />
