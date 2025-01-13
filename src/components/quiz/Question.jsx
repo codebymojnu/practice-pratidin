@@ -4,7 +4,12 @@ import shuffleArray from "../../utils/shuffleArray";
 import useAxios from "./../../hooks/useAxios";
 import Options from "./Options";
 
-export default function Question({ questions = [], quizId }) {
+export default function Question({
+  questions = [],
+  quizId,
+  timeLeft,
+  setTimeLeft,
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [participated, setParticipated] = useState(0);
   const [shuffledOptions, setShuffledOptions] = useState([]);
@@ -12,12 +17,22 @@ export default function Question({ questions = [], quizId }) {
   const { api } = useAxios();
   const navigate = useNavigate();
 
-  // প্রশ্ন পরিবর্তন হলে অপশনগুলো শাফল করুন
   useEffect(() => {
     if (questions[currentIndex]?.options) {
       setShuffledOptions(shuffleArray(questions[currentIndex].options));
     }
   }, [currentIndex, questions]);
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else {
+      handleSubmit();
+    }
+  }, [timeLeft]);
 
   function handleNext() {
     if (currentIndex < questions.length - 1) {
@@ -28,36 +43,30 @@ export default function Question({ questions = [], quizId }) {
     }
   }
 
-  // উত্তর সংগ্রহ
+  function handlePrevious() {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+      setParticipated(participated - 1);
+    }
+  }
+
   function handleAnswer(questionId, selectedAnswer) {
-    // উত্তর সংগ্রহ
-    console.log("Answer collected:", questionId, selectedAnswer);
     setAnswers({ ...answers, [questionId]: selectedAnswer });
   }
 
-  // এবং সার্ভারে ইউজারের উত্তর পাঠানো
+  async function handleSubmit() {
+    try {
+      const response = await api.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/quizzes/${quizId}/attempt`,
+        { answers }
+      );
 
-  function handleSubmit() {
-    async function submitAnswers() {
-      try {
-        // const token = auth?.authToken;
-
-        const response = await api.post(
-          `${import.meta.env.VITE_SERVER_BASE_URL}/quizzes/${quizId}/attempt`,
-          { answers }
-        );
-
-        if (response.status === 200) {
-          navigate("/result", { state: { quizId } });
-        }
-      } catch (error) {
-        console.error(
-          "Error submitting answers:",
-          error.response?.data || error
-        );
+      if (response.status === 200) {
+        navigate("/result", { state: { quizId } });
       }
+    } catch (error) {
+      console.error("Error submitting answers:", error.response?.data || error);
     }
-    submitAnswers();
   }
 
   const currentQuestion = questions[currentIndex];
@@ -70,13 +79,19 @@ export default function Question({ questions = [], quizId }) {
           {currentQuestion?.question || "No question available"}
         </h3>
       </div>
-      <p className="text-xs text-gray-500 mb-4">
+      <p className="inline-block font-medium px-4 py-2 text-gray-500 mb-4 border border-gray-400">
         Remaining: {questions.length - (currentIndex + 1)} | Participated:{" "}
-        {participated}
+        {participated} |{" "}
+        <span className="inline-flex items-center py-2  text-base font-medium rounded-md text-red-600">
+          সময় বাকি আছে: {Math.floor(timeLeft / 60)}:
+          {timeLeft % 60 < 10 ? "0" : ""}
+          {timeLeft % 60}
+        </span>
       </p>
       <Options
         options={shuffledOptions}
         onNext={handleNext}
+        onPrevious={handlePrevious}
         currentIndex={currentIndex}
         questions={questions}
         onAnswer={handleAnswer}

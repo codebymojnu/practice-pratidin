@@ -10,6 +10,7 @@ import useAxios from "../hooks/useAxios";
 export default function QuizPage() {
   const [questionSet, setQuestionSet] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(0);
   const { api } = useAxios();
   const location = useLocation();
   const { quizId } = location.state || { quizId: null };
@@ -17,15 +18,13 @@ export default function QuizPage() {
   useEffect(() => {
     async function fetchQuiz() {
       try {
-        // রেজল্ভ করা বেস URL
         const baseURL = import.meta.env.VITE_SERVER_BASE_URL;
-
-        // সঠিক API রিকোয়েস্ট URL তৈরি
         const response = await api.get(`${baseURL}/quizzes/${quizId}`);
         if (response.status === 200) {
-          console.log("Quiz data:", response?.data);
           setLoading(false);
           setQuestionSet(response?.data?.data);
+          const totalQuestions = response?.data?.data?.questions?.length || 0;
+          setTimeLeft(totalQuestions * 60); // 1 minute per question
         }
       } catch (error) {
         console.error("Error fetching quiz data:", error);
@@ -34,8 +33,6 @@ export default function QuizPage() {
     }
     fetchQuiz();
   }, [quizId]);
-
-  console.log("Quiz data:", questionSet);
 
   return (
     <main className="max-w-8xl mx-auto h-[calc(100vh-10rem)] font-google">
@@ -54,7 +51,12 @@ export default function QuizPage() {
             <UserAvatar />
           </div>
           <div className="lg:col-span-2 bg-white">
-            <Question questions={questionSet?.questions} quizId={quizId} />
+            <Question
+              questions={questionSet?.questions}
+              quizId={quizId}
+              timeLeft={timeLeft}
+              setTimeLeft={setTimeLeft}
+            />
           </div>
         </div>
       )}

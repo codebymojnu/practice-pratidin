@@ -5,6 +5,7 @@ import Option from "./Option";
 export default function Options({
   options = [],
   onNext,
+  onPrevious,
   currentIndex,
   questions,
   onAnswer,
@@ -31,14 +32,25 @@ export default function Options({
         ))}
       </div>
 
-      <NextButton
-        onNext={() => {
-          setSelectedOption(null); // Reset when moving to the next question
-          onNext();
-        }}
-        currentIndex={currentIndex}
-        totalQ={questions?.length}
-      />
+      <div className="flex justify-center">
+        {currentIndex > 0 && (
+          <button
+            onClick={onPrevious}
+            className="w-1/3 text-center ml-auto block bg-primary text-white py-2 px-4 rounded-md hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-6 font-semibold my-8"
+          >
+            Previous
+          </button>
+        )}
+
+        <NextButton
+          onNext={() => {
+            setSelectedOption(null); // Reset when moving to the next question
+            onNext();
+          }}
+          currentIndex={currentIndex}
+          totalQ={questions?.length}
+        />
+      </div>
     </>
   );
 }
