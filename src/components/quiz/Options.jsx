@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NextButton from "./NextButton";
 import Option from "./Option";
 
@@ -11,11 +11,28 @@ export default function Options({
   onAnswer,
 }) {
   const [selectedOption, setSelectedOption] = useState(null); // Track the selected option
+  const [answeredQuestions, setAnsweredQuestions] = useState({}); // Track answers for each question
+
+  useEffect(() => {
+    // Load the selected answer if the question was already answered
+    const currentQuestionId = questions[currentIndex]?.id;
+    setSelectedOption(answeredQuestions[currentQuestionId] || null);
+  }, [currentIndex, answeredQuestions, questions]);
 
   function handleOptionSelect(option) {
-    setSelectedOption(option); // Set the selected option
-    onAnswer(questions[currentIndex]?.id, option); // Send the answer to the parent
+    const currentQuestionId = questions[currentIndex]?.id;
+
+    if (!answeredQuestions[currentQuestionId]) {
+      setSelectedOption(option); // Set the selected option
+      setAnsweredQuestions((prev) => ({
+        ...prev,
+        [currentQuestionId]: option, // Save the answer for the current question
+      }));
+      onAnswer(currentQuestionId, option); // Send the answer to the parent
+    }
   }
+
+  const isAnswered = !!answeredQuestions[questions[currentIndex]?.id];
 
   return (
     <>
@@ -25,7 +42,7 @@ export default function Options({
             key={index}
             name={option}
             option={option}
-            isDisabled={!!selectedOption} // Disable once an option is selected
+            isDisabled={isAnswered} // Disable if the question is already answered
             isSelected={selectedOption === option} // Set checked state
             onSelect={() => handleOptionSelect(option)}
           />
@@ -44,7 +61,7 @@ export default function Options({
 
         <NextButton
           onNext={() => {
-            setSelectedOption(null); // Reset when moving to the next question
+            setSelectedOption(null); // Reset selected option when moving to the next question
             onNext();
           }}
           currentIndex={currentIndex}
