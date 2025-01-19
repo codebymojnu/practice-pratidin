@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { ClockLoader } from "react-spinners";
 import QuizSummary from "../components/result/QuizSummary";
+import QuizSummaryMobile from "../components/result/QuizSummaryMobile";
 import ResultQuestions from "../components/result/ResultQuestions";
 import useResultStore from "../store/resultStore";
 import quizSummary from "../utils/quizSummary";
@@ -11,19 +12,17 @@ import useAxios from "./../hooks/useAxios";
 function ResultPage() {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const { quizId } = location.state || {}; // State থেকে quizId পাওয়া যাচ্ছে
+  const { quizId } = location.state || {};
   const {
     auth: {
       user: { id },
     },
   } = useAuth();
   const { api } = useAxios();
-
   const { setResultData } = useResultStore();
 
   useEffect(() => {
-    async function fetchAttemtData() {
-      // রেজল্ভ করা বেস URL
+    async function fetchAttemptData() {
       const baseURL = import.meta.env.VITE_SERVER_BASE_URL;
       try {
         const response = await api.get(`${baseURL}/quizzes/${quizId}/attempts`);
@@ -37,7 +36,7 @@ function ResultPage() {
         console.log(error.message);
       }
     }
-    fetchAttemtData();
+    fetchAttemptData();
   }, []);
 
   return (
@@ -47,10 +46,19 @@ function ResultPage() {
           <ClockLoader size={50} color="#000000" />
         </div>
       ) : (
-        <div className="flex min-h-screen overflow-hidden">
-          <QuizSummary quizId={quizId} />
-          <ResultQuestions quizId={quizId} />
-        </div>
+        <>
+          {/* Mobile-specific Quiz Summary */}
+          <div className="flex flex-col lg:hidden ">
+            <QuizSummaryMobile quizId={quizId} />
+          </div>
+
+          <div className="flex min-h-screen overflow-hidden">
+            <QuizSummary quizId={quizId} />
+
+            {/* Result Questions (Visible on all screen sizes) */}
+            <ResultQuestions quizId={quizId} />
+          </div>
+        </>
       )}
     </div>
   );
