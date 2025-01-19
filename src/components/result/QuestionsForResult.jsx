@@ -1,6 +1,4 @@
-import React, { Suspense } from "react";
-
-const RenderContent = React.lazy(() => import("./RenderContent"));
+import RenderContent from "./RenderContent";
 
 export default function QuestionsForResult({ questions, wrong_answers }) {
   return (
@@ -14,9 +12,7 @@ export default function QuestionsForResult({ questions, wrong_answers }) {
           <div className="p-4 border-b border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 flex items-start gap-2">
               <span>{qIndex + 1}.</span>
-              <Suspense fallback={<span>Loading question...</span>}>
-                <RenderContent content={question?.question} />
-              </Suspense>
+              <RenderContent content={question?.question} />
             </h3>
           </div>
 
@@ -49,9 +45,7 @@ export default function QuestionsForResult({ questions, wrong_answers }) {
                     {isCorrect ? "✓" : isWrong ? "✕" : ""}
                   </span>
                   <span className="text-sm">
-                    <Suspense fallback={<span>Loading option...</span>}>
-                      <RenderContent content={option} />
-                    </Suspense>
+                    <RenderContent content={option} />
                   </span>
                 </div>
               );
@@ -76,9 +70,7 @@ export default function QuestionsForResult({ questions, wrong_answers }) {
               ব্যাখ্যা
             </summary>
             <div className="mt-2 text-sm text-gray-700">
-              <Suspense fallback={<span>Loading explanation...</span>}>
-                <RenderContent content={question?.explanation} />
-              </Suspense>
+              <RenderContent content={question?.explanation} />
             </div>
           </details>
         </div>
