@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
 import { loginValidationSchema } from "../../validationSchema/loginValidation";
 import TextField from "../common/TextField";
@@ -40,13 +41,14 @@ export default function LoginForm() {
         navigate("/"); // হোমপেজে রিডাইরেক্ট
       }
     } catch (error) {
-      console.error("Login error:", error.message);
       setLoading(false);
+      toast.error("লগইন ব্যর্থ, ভুল পার্সওয়ার্ড-ইউজারনেম");
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <ToastContainer />
       <TextField
         label="ইউজারনেম অথবা ইমেইল অ্যাড্রেস দিন"
         type="email"

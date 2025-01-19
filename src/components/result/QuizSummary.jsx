@@ -3,7 +3,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { Link } from "react-router-dom";
 import useResultStore from "../../store/resultStore";
 
-export default function QuizSummary() {
+export default function QuizSummary({ quizId }) {
   const { resultData } = useResultStore();
   return (
     <>
@@ -47,6 +47,7 @@ export default function QuizSummary() {
                 <Link
                   to="/leaderboard"
                   className="bg-secondary py-3 rounded-md hover:bg-secondary/90 transition-colors text-lg font-medium underline text-white"
+                  state={{ quizId }}
                 >
                   View Leaderboard
                 </Link>

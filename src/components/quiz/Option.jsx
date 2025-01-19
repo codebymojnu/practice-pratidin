@@ -1,3 +1,5 @@
+import RenderContent from "../result/RenderContent";
+
 export default function Option({
   name,
   option,
@@ -19,7 +21,9 @@ export default function Option({
         onChange={onSelect} // সিলেক্ট করা হ্যান্ডলিং
         className="form-radio text-buzzr-purple"
       />
-      <span>{option}</span>
+      <span>
+        <RenderContent content={option} />
+      </span>
     </label>
   );
 }

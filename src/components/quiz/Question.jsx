@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import shuffleArray from "../../utils/shuffleArray";
+import RenderContent from "../result/RenderContent";
 import useAxios from "./../../hooks/useAxios";
 import Options from "./Options";
 
@@ -73,10 +74,10 @@ export default function Question({
 
   return (
     <div className="bg-white p-6 rounded-md font-google">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-2xl font-semibold">
-          Q{currentIndex + 1}.{" "}
-          {currentQuestion?.question || "No question available"}
+      <div className="mb-4 border-b border-gray-200 pb-2">
+        <h3 className="text-2xl font-semibold text-gray-800 flex items-start gap-2">
+          <span>{currentIndex + 1}.</span>
+          <RenderContent content={currentQuestion?.question} />
         </h3>
       </div>
       <p className="inline-block font-medium px-4 py-2 text-gray-500 mb-4 border border-gray-400">

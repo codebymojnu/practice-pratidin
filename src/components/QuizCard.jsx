@@ -12,8 +12,9 @@ export default function QuizCard({
     <Link to={isAttempted ? `/result` : "/quiz"} state={{ quizId }}>
       <div className="relative group cursor-pointer rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow max-h-[450px] p-1 bg-white">
         {/* Background image */}
+        {console.log(thumbnail)}
         <img
-          src="./assests/backgrounds/5.jpg"
+          src={thumbnail}
           alt={title}
           className="w-full h-56 sm:h-72 md:h-80 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
         />
@@ -52,6 +53,7 @@ export default function QuizCard({
             <Link
               to="/leaderboard"
               className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded transition duration-200"
+              state={{ quizId }}
             >
               View Leaderboard
             </Link>
