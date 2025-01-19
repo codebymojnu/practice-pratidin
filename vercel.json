@@ -1,3 +1,8 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "api/**/*.js", "use": "@vercel/node" }
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
+  "routes": [{ "src": "/api/(.*)", "dest": "/api/$1" }]
 }
