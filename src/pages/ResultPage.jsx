@@ -48,11 +48,11 @@ function ResultPage() {
       ) : (
         <>
           {/* Mobile-specific Quiz Summary */}
-          <div className="flex flex-col lg:hidden ">
+          <div className="flex flex-col lg:hidden mt-[-55px]">
             <QuizSummaryMobile quizId={quizId} />
           </div>
 
-          <div className="flex min-h-screen overflow-hidden">
+          <div className="flex min-h-screen">
             <QuizSummary quizId={quizId} />
 
             {/* Result Questions (Visible on all screen sizes) */}

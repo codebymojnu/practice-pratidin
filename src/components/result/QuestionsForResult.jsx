@@ -2,7 +2,7 @@ import RenderContent from "./RenderContent";
 
 export default function QuestionsForResult({ questions, wrong_answers }) {
   return (
-    <div className="space-y-6 px-4 py-6 bg-gray-100 lg:min-h-screen">
+    <div className="space-y-6 py-6 bg-gray-100 lg:min-h-screen">
       {questions?.map((question, qIndex) => (
         <div
           key={qIndex}
