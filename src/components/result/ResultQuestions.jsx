@@ -28,10 +28,10 @@ export default function ResultQuestions({ quizId }) {
   }, [quizId]);
 
   return (
-    <div className="max-h-screen md:w-1/2 flex items-center justify-center h-full p-8">
-      <div className="h-[calc(100vh-50px)] overflow-y-scroll ">
+    <div className="lg:max-h-screen md:w-1/2 flex items-center justify-center h-full p-8">
+      <div className="h-[calc(100vh-50px)] lg:overflow-y-scroll ">
         <div className="px-4">
-          <div className="rounded-lg overflow-hidden shadow-sm mb-4">
+          <div className="rounded-lg lg:overflow-hidden shadow-sm mb-4 pb-2">
             <QuestionsForResult
               questions={questionSet?.questions}
               wrong_answers={resultData?.wrongAnswersArray}
