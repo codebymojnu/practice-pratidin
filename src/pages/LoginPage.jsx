@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import LoginForm from "../components/auth/LoginForm";
+import LoginForm from "./../components/auth/LoginForm";
 
 export default function LoginPage() {
   return (
@@ -30,10 +30,16 @@ export default function LoginPage() {
               <span>Welcome to</span>
               <img src="./assets/logo.svg" className="h-7" />
             </h2>
-            <h1 className="text-5xl font-bold mb-8">Sign in</h1>
-
+            <div className="bg-gray-100 p-4 rounded-lg text-sm mb-4">
+              <p className="text-gray-600 font-medium">For Testing Purpose:</p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Email:</span> testuser@gmail.com
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Password:</span> Test0172
+              </p>
+            </div>
             <LoginForm />
-
             <div className="text-center">
               <Link to="/forget-password" className="text-primary">
                 Forgot Password

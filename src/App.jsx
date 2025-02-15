@@ -1,4 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Routine from "./components/routine/Routine";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import HomePage from "./pages/HomePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
@@ -26,6 +27,7 @@ function App() {
 
             <Route exact path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/hsc-routine" element={<Routine />} />
             <Route path="/registration" element={<RegistrationPage />} />
             <Route path="/forget-password" element={<ForgetPasswordPage />} />
 
